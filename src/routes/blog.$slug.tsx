@@ -52,7 +52,7 @@ function PostPage() {
 
         <Reveal delay={220}>
           <div className="prose mt-12 max-w-none space-y-6 text-lg leading-relaxed text-primary/85">
-            {p.content.map((para, i) => (
+            {p.content.map((para: string, i: number) => (
               <p key={i} className={i === 0 ? "first-letter:font-serif first-letter:text-6xl first-letter:mr-2 first-letter:float-left first-letter:leading-none first-letter:text-[color:var(--olive)]" : ""}>
                 {para}
               </p>
