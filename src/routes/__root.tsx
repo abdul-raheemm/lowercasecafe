@@ -11,6 +11,9 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { SiteNavbar } from "@/components/site/navbar";
+import { SiteFooter } from "@/components/site/footer";
+import { ChatbotWidget } from "@/components/site/chatbot";
 
 function NotFoundComponent() {
   return (
@@ -77,14 +80,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "lowercase cafe — vintage rustic coffee & kitchen" },
+      { name: "description", content: "A premium vintage-rustic café serving hand-crafted coffee, seasonal food and warm evenings under Edison-light glow." },
+      { name: "author", content: "lowercase cafe" },
+      { property: "og:title", content: "lowercase cafe" },
+      { property: "og:description", content: "Hand-crafted coffee, seasonal kitchen, cozy Edison-lit rooms." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "theme-color", content: "#f4ecd8" },
     ],
     links: [
       {
@@ -92,6 +95,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&display=swap",
+      },
     ],
   }),
   shellComponent: RootShell,
@@ -119,8 +128,14 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <div className="flex min-h-dvh flex-col bg-background text-foreground">
+        <SiteNavbar />
+        <main className="flex-1">
+          <Outlet />
+        </main>
+        <SiteFooter />
+        <ChatbotWidget />
+      </div>
     </QueryClientProvider>
   );
 }
