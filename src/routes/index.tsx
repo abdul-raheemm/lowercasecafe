@@ -1,13 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight, ArrowUpRight, Coffee, Quote, Star } from "lucide-react";
-import { IMAGES, MENU, TESTIMONIALS, GALLERY } from "@/lib/site-data";
+import { IMAGES, MENU, TESTIMONIALS, GALLERY, SITE, formatPrice } from "@/lib/site-data";
 import { MagneticButton } from "@/components/site/magnetic-button";
 import { TiltCard } from "@/components/site/tilt-card";
 import { Reveal } from "@/components/site/reveal";
 import { SectionHeading } from "@/components/site/section-heading";
-import { Lightbox } from "@/components/site/lightbox";
 import { cn } from "@/lib/utils";
+import RotatingHeadline from "@/components/RotatingHeadline";
+import StylishCarousel from "@/components/lightswind/stylish-carousel";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -23,18 +24,47 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   const [scrollY, setScrollY] = useState(0);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [videoLoaded, setVideoLoaded] = useState(false);
+
   useEffect(() => {
     const onScroll = () => setScrollY(window.scrollY);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = true;
+      const playPromise = videoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setVideoLoaded(true);
+            window.dispatchEvent(new CustomEvent("hero-video-ready"));
+          })
+          .catch((err) => {
+            console.warn("Video play error/policy block:", err);
+            window.dispatchEvent(new CustomEvent("hero-video-ready"));
+          });
+      }
+    }
+  }, []);
+
+  const handleVideoReady = () => {
+    setVideoLoaded(true);
+    window.dispatchEvent(new CustomEvent("hero-video-ready"));
+  };
+
   const featured = MENU.filter((m) => m.featured);
   const [filter, setFilter] = useState<"All" | "Coffee" | "Food" | "Desserts">("All");
   const filtered = filter === "All" ? featured : featured.filter((m) => m.category === filter);
 
-  const galleryImages = GALLERY.slice(0, 6);
-  const [lb, setLb] = useState<number | null>(null);
+  const galleryImages = GALLERY.slice(0, 6).map((img) => ({
+    src: img.src,
+    alt: img.alt,
+    title: img.category,
+  }));
 
   const [tIdx, setTIdx] = useState(0);
   useEffect(() => {
@@ -45,46 +75,89 @@ function Home() {
   return (
     <>
       {/* HERO */}
-      <section className="relative overflow-hidden">
+      <section className="relative min-h-[92vh] overflow-hidden bg-[color:var(--walnut)]">
+        {/* Background layer — soft arch texture + grain, slow parallax */}
         <div
           aria-hidden
-          className="absolute inset-0 -z-10"
-          style={{
-            backgroundImage: `url(${IMAGES.heroCafe})`,
-            backgroundSize: "cover",
-            backgroundPosition: `center ${50 + scrollY * 0.03}%`,
-            transform: `translateY(${scrollY * 0.15}px) scale(1.05)`,
-          }}
-        />
-        <div aria-hidden className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(28,20,14,0.55),rgba(28,20,14,0.35)_40%,rgba(244,236,216,0.9)_92%,var(--cream))]" />
-        <div aria-hidden className="absolute inset-0 -z-10 grain" />
+          className="pointer-events-none absolute inset-0 -z-30"
+          style={{ transform: `translateY(${scrollY * 0.2}px)` }}
+        >
+          <div
+            className="absolute inset-0 opacity-[0.15]"
+            style={{
+              backgroundImage:
+                "radial-gradient(ellipse 90% 60% at 50% 100%, color-mix(in oklab, var(--walnut) 85%, transparent) 0%, transparent 72%)",
+            }}
+          />
+          <div className="absolute inset-0 grain opacity-[0.15]" />
+        </div>
 
-        <div className="container-x flex min-h-[92vh] flex-col justify-end pb-16 pt-40 md:pb-24 md:pt-48">
+        {/* Midground layer — hero video + poster fallback with subtle parallax */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-20 overflow-hidden"
+          style={{
+            transform: `translateY(${scrollY * 0.35}px) scale(${1.04 + scrollY * 0.00008})`,
+          }}
+        >
+          {/* Always rendered poster fallback image */}
+          <img
+            src={IMAGES.heroPoster || "/heroplace.png"}
+            alt="lowercase cafe hero interior"
+            className="absolute inset-0 h-full w-full object-cover object-center"
+          />
+
+          <video
+            ref={videoRef}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            poster={IMAGES.heroPoster}
+            src={IMAGES.heroVideo}
+            className={cn(
+              "absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-700",
+              videoLoaded ? "opacity-100" : "opacity-100",
+            )}
+            onCanPlay={handleVideoReady}
+            onCanPlayThrough={handleVideoReady}
+            onPlay={handleVideoReady}
+            onError={(e) => console.error('Video error:', e)}
+          />
+        </div>
+
+        {/* Legibility dark gradient overlay */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-t from-black/80 via-black/40 to-black/25"
+        />
+
+        {/* Foreground — badge, headline, CTA */}
+        <div className="container-x relative z-10 flex min-h-[92vh] flex-col justify-end pb-16 pt-40 md:pb-24 md:pt-48">
           <Reveal>
-            <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-[color:var(--cream)]/25 bg-black/10 px-4 py-1.5 text-[11px] uppercase tracking-[0.32em] text-[color:var(--cream)] backdrop-blur">
+            <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-[color:var(--amber-glow)]/40 bg-black/40 px-4 py-1.5 text-[11px] uppercase tracking-[0.32em] text-[color:var(--amber-glow)] backdrop-blur">
               <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--amber-glow)] animate-bulb" />
-              Est. 2018 · Old Quarter
+              Est. {SITE.estYear} · {SITE.location}
             </p>
           </Reveal>
-          <Reveal delay={150}>
-            <h1 className="max-w-4xl font-serif text-5xl leading-[1.02] text-[color:var(--cream)] sm:text-6xl md:text-7xl lg:text-[88px] text-balance">
-              Slow coffee.<br/>
-              <em className="not-italic text-[color:var(--amber-glow)]">Warm</em> rooms.<br/>
-              Better mornings.
-            </h1>
-          </Reveal>
+          <div className="-ml-1 max-w-[110%] md:-ml-3 md:max-w-none">
+            <RotatingHeadline className="text-left font-serif text-5xl leading-[0.95] text-[color:var(--cream)] sm:text-6xl md:text-8xl drop-shadow-md" />
+          </div>
           <Reveal delay={280}>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-[color:var(--cream)]/85">
-              A small café on Kiln Lane, pouring single-origin coffee, seasonal food, and honest hospitality — every day from 7:30 to late.
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-[color:var(--cream)]/90 drop-shadow">
+              A small café on {SITE.address.split(",")[0]}, pouring single-origin coffee, seasonal food, and honest hospitality — every day from 7:30 to late.
             </p>
           </Reveal>
           <Reveal delay={420}>
             <div className="mt-10 flex flex-wrap items-center gap-3">
               <Link to="/reservations">
-                <MagneticButton size="lg">Reserve a table <ArrowRight className="h-4 w-4" /></MagneticButton>
+                <MagneticButton size="lg" className="!bg-[color:var(--amber-glow)] !text-[color:var(--charcoal)] hover:!bg-[color:var(--cream)] font-medium">
+                  Reserve a table <ArrowRight className="h-4 w-4" />
+                </MagneticButton>
               </Link>
               <Link to="/menu">
-                <MagneticButton size="lg" variant="outline" className="!border-[color:var(--cream)]/30 !text-[color:var(--cream)] hover:!bg-[color:var(--cream)]/10">
+                <MagneticButton size="lg" variant="outline" className="!border-[color:var(--cream)]/40 !text-[color:var(--cream)] hover:!bg-[color:var(--cream)]/15">
                   View menu
                 </MagneticButton>
               </Link>
@@ -92,15 +165,15 @@ function Home() {
           </Reveal>
 
           <Reveal delay={600}>
-            <div className="mt-16 grid max-w-2xl grid-cols-3 gap-6 border-t border-[color:var(--cream)]/15 pt-8 text-[color:var(--cream)]/90">
+            <div className="mt-16 grid max-w-2xl grid-cols-3 gap-6 border-t border-[color:var(--cream)]/20 pt-8 text-[color:var(--cream)]/90">
               {[
-                { k: "07", v: "years pouring" },
+                { k: "06", v: "years pouring" },
                 { k: "22", v: "single-origin lots" },
                 { k: "4.9★", v: "1.2k reviews" },
               ].map((s) => (
                 <div key={s.v}>
-                  <p className="font-serif text-3xl md:text-4xl">{s.k}</p>
-                  <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--cream)]/60">{s.v}</p>
+                  <p className="font-serif text-3xl md:text-4xl text-[color:var(--amber-glow)]">{s.k}</p>
+                  <p className="text-xs uppercase tracking-[0.2em] text-[color:var(--cream)]/70">{s.v}</p>
                 </div>
               ))}
             </div>
@@ -126,7 +199,7 @@ function Home() {
             <SectionHeading
               eyebrow="Our story"
               title={<>A small room, poured one cup at a time.</>}
-              subtitle="We opened lowercase in 2018 with three tables, one espresso machine, and a stubborn idea: that coffee is worth taking a little longer over. Seven years later, the machine is bigger, but the idea hasn't changed."
+              subtitle={`We opened lowercase in ${SITE.estYear} with three tables, one espresso machine, and a stubborn idea: that coffee is worth taking a little longer over. The machine is bigger now, but the idea hasn't changed.`}
             />
             <div className="mt-8 space-y-4 text-primary/80">
               <p>We roast every bean in-house, bake our own bread on Wednesdays, and pour Chemex by hand until the last order at 9:15 PM.</p>
@@ -183,7 +256,7 @@ function Home() {
                     <div className="flex flex-1 flex-col p-6">
                       <div className="flex items-baseline justify-between gap-4">
                         <h3 className="font-serif text-2xl text-primary">{m.name}</h3>
-                        <p className="whitespace-nowrap font-serif text-lg text-[color:var(--olive)]">${m.price.toFixed(2)}</p>
+                        <p className="whitespace-nowrap font-serif text-lg text-[color:var(--olive)]">{formatPrice(m.price)}</p>
                       </div>
                       <p className="mt-3 text-sm leading-relaxed text-muted-foreground opacity-0 -translate-y-1 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0">
                         {m.description}
@@ -259,26 +332,22 @@ function Home() {
             <SectionHeading eyebrow="Photo journal" title={<>A closer look.</>} />
             <Link to="/gallery" className="story-link text-sm text-[color:var(--olive)]">Open full gallery</Link>
           </div>
-          <div className="mt-12 grid grid-cols-2 gap-3 md:grid-cols-4">
-            {galleryImages.map((img, i) => (
-              <Reveal key={img.src} delay={i * 60}>
-                <button
-                  type="button"
-                  onClick={() => setLb(i)}
-                  className={cn(
-                    "group relative block w-full overflow-hidden rounded-2xl shadow-soft transition-transform duration-500 hover:-translate-y-1",
-                    i % 5 === 0 ? "aspect-[3/4]" : i % 3 === 0 ? "aspect-[4/3]" : "aspect-square",
-                  )}
-                  aria-label={`Open image: ${img.alt}`}
-                >
-                  <img src={img.src} alt={img.alt} className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-110" loading="lazy" />
-                  <span className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-                </button>
-              </Reveal>
-            ))}
-          </div>
+          <Reveal>
+            <div
+              className="mt-12 flex justify-center [--primary:38_75%_55%]"
+              style={{ ["--primary" as string]: "38 75% 55%" }}
+            >
+              <StylishCarousel
+                items={galleryImages}
+                showArrows
+                showDots
+                clickToNavigate
+                autoPlay={4500}
+                slideSize="clamp(160px, 70vmin, 300px)"
+              />
+            </div>
+          </Reveal>
         </div>
-        <Lightbox images={galleryImages} index={lb} onClose={() => setLb(null)} onIndex={setLb} />
       </section>
 
       {/* TESTIMONIALS */}

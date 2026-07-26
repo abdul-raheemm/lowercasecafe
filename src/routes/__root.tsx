@@ -7,13 +7,14 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteNavbar } from "@/components/site/navbar";
 import { SiteFooter } from "@/components/site/footer";
 import { ChatbotWidget } from "@/components/site/chatbot";
+import { SiteDock } from "@/components/site/site-dock";
+import LoadingScreen from "@/components/LoadingScreen";
 
 function NotFoundComponent() {
   return (
@@ -40,9 +41,6 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
-  useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
-  }, [error]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -80,7 +78,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "lowercase cafe — vintage rustic coffee & kitchen" },
+      { title: "lowercase cafe — coffee, kitchen & slow evenings" },
       { name: "description", content: "A premium vintage-rustic café serving hand-crafted coffee, seasonal food and warm evenings under Edison-light glow." },
       { name: "author", content: "lowercase cafe" },
       { property: "og:title", content: "lowercase cafe" },
@@ -94,6 +92,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
@@ -128,6 +127,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <LoadingScreen />
       <div className="flex min-h-dvh flex-col bg-background text-foreground">
         <SiteNavbar />
         <main className="flex-1">
@@ -135,6 +135,7 @@ function RootComponent() {
         </main>
         <SiteFooter />
         <ChatbotWidget />
+        <SiteDock />
       </div>
     </QueryClientProvider>
   );

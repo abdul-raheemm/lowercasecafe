@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Mail, MapPin, Phone, Send, Instagram, Facebook, Twitter, Check } from "lucide-react";
+import { SITE } from "@/lib/site-data";
 import { Reveal } from "@/components/site/reveal";
 import { SectionHeading } from "@/components/site/section-heading";
 import { MagneticButton } from "@/components/site/magnetic-button";
@@ -10,7 +11,7 @@ export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
       { title: "Contact & visit — lowercase cafe" },
-      { name: "description", content: "Visit us at 42 Kiln Lane. Get in touch for private events, press, or a slow question about coffee." },
+      { name: "description", content: `Visit us at ${SITE.address}. Get in touch for private events, press, or a slow question about coffee.` },
       { property: "og:title", content: "Contact — lowercase cafe" },
       { property: "og:description", content: "Directions, hours, and how to reach us." },
     ],
@@ -86,9 +87,9 @@ function ContactPage() {
               <div className="rounded-3xl border border-primary/10 bg-white/60 p-6 shadow-soft">
                 <h3 className="font-serif text-2xl text-primary">Visit</h3>
                 <ul className="mt-4 space-y-3 text-sm text-primary/80">
-                  <li className="flex gap-3"><MapPin className="mt-0.5 h-4 w-4 text-[color:var(--olive)]" /> 42 Kiln Lane, Old Quarter</li>
-                  <li className="flex gap-3"><Phone className="mt-0.5 h-4 w-4 text-[color:var(--olive)]" /> +1 (415) 555 0182</li>
-                  <li className="flex gap-3"><Mail className="mt-0.5 h-4 w-4 text-[color:var(--olive)]" /> hello@lowercase.cafe</li>
+                  <li className="flex gap-3"><MapPin className="mt-0.5 h-4 w-4 text-[color:var(--olive)]" /> {SITE.address}</li>
+                  <li className="flex gap-3"><Phone className="mt-0.5 h-4 w-4 text-[color:var(--olive)]" /> {SITE.phone}</li>
+                  <li className="flex gap-3"><Mail className="mt-0.5 h-4 w-4 text-[color:var(--olive)]" /> {SITE.email}</li>
                 </ul>
                 <dl className="mt-6 grid grid-cols-2 gap-4 border-t border-primary/10 pt-6 text-sm">
                   <div><dt className="text-xs uppercase tracking-[0.22em] text-muted-foreground">Mon – Fri</dt><dd className="font-serif text-lg text-primary">7:30 – 22:00</dd></div>
@@ -107,7 +108,7 @@ function ContactPage() {
                   title="Map"
                   className="h-72 w-full"
                   loading="lazy"
-                  src="https://www.google.com/maps?q=San+Francisco+coffee&output=embed"
+                  src={SITE.mapsEmbedUrl}
                 />
               </div>
             </div>

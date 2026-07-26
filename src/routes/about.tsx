@@ -7,19 +7,19 @@ export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
       { title: "Our story — lowercase cafe" },
-      { name: "description", content: "A small café that opened in 2018 with three tables and a stubborn idea about slow coffee. This is how it grew." },
+      { name: "description", content: "A small café in Banjara Hills with three tables and a stubborn idea about slow coffee. This is how it grew." },
       { property: "og:title", content: "Our story — lowercase cafe" },
-      { property: "og:description", content: "How a small room on Kiln Lane became lowercase cafe." },
+      { property: "og:description", content: "How a small room in Banjara Hills became lowercase cafe." },
     ],
   }),
   component: AboutPage,
 });
 
 const TIMELINE = [
-  { year: "2018", title: "Three tables on Kiln Lane", body: "We open with a used La Marzocco, a bag of Ethiopian beans, and Elena behind the bar every morning at 6 AM." },
-  { year: "2019", title: "Bakery joins the room", body: "Rafael arrives from a Barcelona bakery. Sourdough on Wednesdays becomes sourdough every day." },
-  { year: "2021", title: "The little roastery", body: "We take over the shop next door and start roasting every bean we pour. Three lots become twenty-two." },
-  { year: "2023", title: "Kitchen expansion", body: "Full breakfast, lunch, and small-plates evening menu. The wine list arrives quietly one Tuesday." },
+  { year: "2020", title: "Three tables in Banjara Hills", body: "We open with a used La Marzocco, a bag of Ethiopian micro-lot beans, and Elena behind the bar every morning at 6 AM." },
+  { year: "2022", title: "Bakery joins the room", body: "Rafael arrives from a Barcelona bakery. Sourdough on Wednesdays becomes sourdough every day." },
+  { year: "2024", title: "The little roastery", body: "We take over the shop next door and start roasting every bean we pour. Three lots become twenty-two." },
+  { year: "2025", title: "Kitchen expansion", body: "Full breakfast, lunch, and small-plates evening menu. The wine & brew list arrives quietly one Tuesday." },
   { year: "2026", title: "You, here, now", body: "Same room. Same idea. Better tart." },
 ];
 
@@ -40,10 +40,10 @@ function AboutPage() {
           <Reveal>
             <p className="mb-6 text-[11px] uppercase tracking-[0.32em] text-[color:var(--amber-glow)]">Our story</p>
             <h1 className="max-w-4xl font-serif text-5xl leading-[1.02] text-[color:var(--cream)] sm:text-6xl md:text-7xl text-balance">
-              A small room, seven years, ten thousand mornings.
+              A small room, six years, ten thousand mornings.
             </h1>
             <p className="mt-6 max-w-2xl text-lg text-[color:var(--cream)]/80">
-              lowercase cafe started with a stubborn idea: that coffee is worth taking longer over. This is how a room on Kiln Lane became the place you're reading about.
+              lowercase cafe started with a stubborn idea: that coffee is worth taking longer over. This is how a room in Banjara Hills became the place you're reading about.
             </p>
           </Reveal>
         </div>

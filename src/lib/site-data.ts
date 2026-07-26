@@ -1,4 +1,6 @@
 import heroCafe from "@/assets/hero-cafe.jpg";
+import heroPoster from "@/assets/heroplace.png";
+import heroVideo from "@/assets/videos/herovid.mp4";
 import coffee1 from "@/assets/coffee-1.jpg";
 import food1 from "@/assets/food-1.jpg";
 import dessert1 from "@/assets/dessert-1.jpg";
@@ -9,8 +11,23 @@ import interior1 from "@/assets/interior-1.jpg";
 import interior2 from "@/assets/interior-2.jpg";
 import pastries from "@/assets/pastries.jpg";
 
+export const SITE = {
+  name: "lowercase cafe",
+  estYear: 2026,
+  location: "Banjara Hills",
+  address: "Road No. 12, Banjara Hills, Hyderabad, Telangana",
+  phone: "+91 1234567890",
+  email: "hello@lowercase.cafe",
+  mapsEmbedUrl:
+    "https://www.google.com/maps?q=Road+No.+12,+Banjara+Hills,+Hyderabad,+Telangana&output=embed",
+} as const;
+
+export const formatPrice = (price: number) => `₹${Math.round(price)}`;
+
 export const IMAGES = {
   heroCafe,
+  heroPoster,
+  heroVideo,
   coffee1,
   food1,
   dessert1,
@@ -36,22 +53,22 @@ export interface MenuItem {
 }
 
 export const MENU: MenuItem[] = [
-  { id: "espresso", name: "Single Origin Espresso", category: "Coffee", price: 3.5, description: "Ethiopian Yirgacheffe, notes of jasmine, bergamot & stone fruit.", tags: ["signature"], featured: true, image: coffee1 },
-  { id: "flat-white", name: "Flat White", category: "Coffee", price: 4.5, description: "Double ristretto pulled through velvety steamed milk.", featured: true, image: barista },
-  { id: "cortado", name: "Cortado", category: "Coffee", price: 4.0, description: "Espresso cut with warm milk in equal measure.", tags: ["classic"] },
-  { id: "pour-over", name: "Chemex Pour-Over", category: "Coffee", price: 5.5, description: "Hand-brewed to order. Bright, clean, complex.", tags: ["seasonal"], featured: true },
-  { id: "cold-brew", name: "Slow Cold Brew", category: "Coffee", price: 5.0, description: "18-hour steep, dark chocolate & molasses finish." },
-  { id: "matcha", name: "Ceremonial Matcha", category: "Coffee", price: 5.5, description: "Stone-ground Uji matcha, whisked with oat or whole milk." },
-  { id: "avo-toast", name: "Sourdough Avocado Toast", category: "Food", price: 12.0, description: "House sourdough, smashed avocado, chili crisp, soft herbs.", featured: true, image: food1 },
-  { id: "eggs-benedict", name: "Wild Mushroom Benedict", category: "Food", price: 15.0, description: "Poached eggs, brown butter hollandaise, foraged mushrooms.", tags: ["brunch"] },
-  { id: "grain-bowl", name: "Harvest Grain Bowl", category: "Food", price: 14.0, description: "Farro, roast squash, pomegranate, tahini, herbs.", tags: ["seasonal"] },
-  { id: "grilled-cheese", name: "Aged Cheddar Melt", category: "Food", price: 11.5, description: "Three-year cheddar, caramelized onion, sourdough." },
-  { id: "shakshuka", name: "Smoky Shakshuka", category: "Food", price: 13.5, description: "Slow-simmered tomato, peppers, baked eggs, sourdough soldiers.", featured: true },
-  { id: "choco-tart", name: "Dark Chocolate Tart", category: "Desserts", price: 7.5, description: "70% single-origin ganache, gold leaf, sea salt.", tags: ["signature"], featured: true, image: dessert1 },
-  { id: "olive-oil-cake", name: "Olive Oil & Citrus Cake", category: "Desserts", price: 6.5, description: "Extra-virgin olive oil, blood orange, whipped mascarpone." },
-  { id: "croissant", name: "Butter Croissant", category: "Desserts", price: 4.5, description: "Laminated over 72 hours. Shatter-crisp, tender heart.", image: pastries },
-  { id: "tiramisu", name: "House Tiramisu", category: "Desserts", price: 8.0, description: "Espresso-soaked savoiardi, mascarpone, cocoa dust." },
-  { id: "canele", name: "Bordeaux Canelé", category: "Desserts", price: 4.0, description: "Rum & vanilla custard, dark caramelized shell." },
+  { id: "espresso", name: "Single Origin Espresso", category: "Coffee", price: 220, description: "Ethiopian Yirgacheffe, notes of jasmine, bergamot & stone fruit.", tags: ["signature"], featured: true, image: coffee1 },
+  { id: "flat-white", name: "Flat White", category: "Coffee", price: 280, description: "Double ristretto pulled through velvety steamed milk.", featured: true, image: barista },
+  { id: "cortado", name: "Cortado", category: "Coffee", price: 250, description: "Espresso cut with warm milk in equal measure.", tags: ["classic"] },
+  { id: "pour-over", name: "Chemex Pour-Over", category: "Coffee", price: 340, description: "Hand-brewed to order. Bright, clean, complex.", tags: ["seasonal"], featured: true },
+  { id: "cold-brew", name: "Slow Cold Brew", category: "Coffee", price: 310, description: "18-hour steep, dark chocolate & molasses finish." },
+  { id: "matcha", name: "Ceremonial Matcha", category: "Coffee", price: 340, description: "Stone-ground Uji matcha, whisked with oat or whole milk." },
+  { id: "avo-toast", name: "Sourdough Avocado Toast", category: "Food", price: 480, description: "House sourdough, smashed avocado, chili crisp, soft herbs.", featured: true, image: food1 },
+  { id: "eggs-benedict", name: "Wild Mushroom Benedict", category: "Food", price: 560, description: "Poached eggs, brown butter hollandaise, foraged mushrooms.", tags: ["brunch"] },
+  { id: "grain-bowl", name: "Harvest Grain Bowl", category: "Food", price: 520, description: "Farro, roast squash, pomegranate, tahini, herbs.", tags: ["seasonal"] },
+  { id: "grilled-cheese", name: "Aged Cheddar Melt", category: "Food", price: 450, description: "Three-year cheddar, caramelized onion, sourdough." },
+  { id: "shakshuka", name: "Smoky Shakshuka", category: "Food", price: 490, description: "Slow-simmered tomato, peppers, baked eggs, sourdough soldiers.", featured: true },
+  { id: "choco-tart", name: "Dark Chocolate Tart", category: "Desserts", price: 380, description: "70% single-origin ganache, gold leaf, sea salt.", tags: ["signature"], featured: true, image: dessert1 },
+  { id: "olive-oil-cake", name: "Olive Oil & Citrus Cake", category: "Desserts", price: 320, description: "Extra-virgin olive oil, blood orange, whipped mascarpone." },
+  { id: "croissant", name: "Butter Croissant", category: "Desserts", price: 240, description: "Laminated over 72 hours. Shatter-crisp, tender heart.", image: pastries },
+  { id: "tiramisu", name: "House Tiramisu", category: "Desserts", price: 420, description: "Espresso-soaked savoiardi, mascarpone, cocoa dust." },
+  { id: "canele", name: "Bordeaux Canelé", category: "Desserts", price: 220, description: "Rum & vanilla custard, dark caramelized shell." },
 ];
 
 export interface Event {

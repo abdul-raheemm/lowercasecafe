@@ -24,7 +24,7 @@ async function sendMessageToBot(_history: ChatMessage[], userText: string): Prom
   if (/(wifi|work|laptop)/.test(q))
     return "Yes — fast wifi, plenty of outlets, and we don't mind laptops except Sundays between 11–2.";
   if (/(where|address|location|park)/.test(q))
-    return "We're at 42 Kiln Lane in the Old Quarter. Street parking after 6 PM, a lot around the corner on Maple.";
+    return "We're at Road No. 12, Banjara Hills, Hyderabad. Valet & street parking available.";
   if (/(event|music|vinyl|cupping)/.test(q))
     return "Our events calendar is on /events — vinyl Sundays and a cupping session are coming up.";
   if (/(hi|hello|hey)/.test(q))

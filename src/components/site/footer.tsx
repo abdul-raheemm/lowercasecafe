@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Instagram, Facebook, Twitter, Mail, MapPin, Phone } from "lucide-react";
+import { SITE } from "@/lib/site-data";
 import { Logo } from "./logo";
 
 export function SiteFooter() {
@@ -11,7 +12,7 @@ export function SiteFooter() {
             <Logo />
           </div>
           <p className="max-w-sm text-sm leading-relaxed text-[color:var(--cream)]/70">
-            A small room on a slow street, serving hand-crafted coffee, seasonal food, and unhurried evenings since 2018.
+            A small room on a slow street, serving hand-crafted coffee, seasonal food, and unhurried evenings since {SITE.estYear}.
           </p>
           <div className="flex gap-3 pt-2">
             {[Instagram, Facebook, Twitter].map((Icon, i) => (
@@ -30,9 +31,9 @@ export function SiteFooter() {
         <div>
           <h3 className="mb-4 font-sans text-xs uppercase tracking-[0.28em] text-[color:var(--amber-glow)]">Visit</h3>
           <ul className="space-y-3 text-sm text-[color:var(--cream)]/75">
-            <li className="flex gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0" />42 Kiln Lane, Old Quarter</li>
-            <li className="flex gap-2"><Phone className="mt-0.5 h-4 w-4 shrink-0" />+1 (415) 555 0182</li>
-            <li className="flex gap-2"><Mail className="mt-0.5 h-4 w-4 shrink-0" />hello@lowercase.cafe</li>
+            <li className="flex gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0" />{SITE.address}</li>
+            <li className="flex gap-2"><Phone className="mt-0.5 h-4 w-4 shrink-0" />{SITE.phone}</li>
+            <li className="flex gap-2"><Mail className="mt-0.5 h-4 w-4 shrink-0" />{SITE.email}</li>
           </ul>
         </div>
 

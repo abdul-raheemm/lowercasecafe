@@ -39,7 +39,7 @@ export function SiteNavbar() {
       )}
     >
       <div className="container-x flex h-16 items-center justify-between gap-4 md:h-20">
-        <Logo />
+        <Logo transparent={!scrolled} />
         <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary">
           {LINKS.map((l) => {
             const active = l.to === "/" ? pathname === "/" : pathname.startsWith(l.to);
@@ -49,7 +49,9 @@ export function SiteNavbar() {
                 to={l.to}
                 className={cn(
                   "relative text-sm tracking-wide transition-colors",
-                  active ? "text-primary" : "text-muted-foreground hover:text-primary",
+                  scrolled
+                    ? active ? "text-primary" : "text-muted-foreground hover:text-primary"
+                    : active ? "text-[color:var(--amber-glow)]" : "text-white/90 hover:text-white",
                 )}
               >
                 {l.label}
@@ -65,13 +67,20 @@ export function SiteNavbar() {
         </nav>
         <div className="hidden lg:block">
           <Link to="/reservations">
-            <MagneticButton size="sm">Reserve a table</MagneticButton>
+            <MagneticButton size="sm" className={cn(!scrolled && "!border-white/40 !text-white hover:!bg-white/15")}>
+              Reserve a table
+            </MagneticButton>
           </Link>
         </div>
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="grid h-10 w-10 place-items-center rounded-full border border-primary/15 text-primary lg:hidden"
+          className={cn(
+            "grid h-10 w-10 place-items-center rounded-full border transition-colors lg:hidden",
+            scrolled
+              ? "border-primary/15 text-primary"
+              : "border-white/30 text-white",
+          )}
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
         >

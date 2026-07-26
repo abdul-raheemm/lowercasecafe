@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Search, X } from "lucide-react";
-import { MENU, type MenuCategory } from "@/lib/site-data";
+import { MENU, formatPrice, type MenuCategory } from "@/lib/site-data";
 import { Reveal } from "@/components/site/reveal";
 import { SectionHeading } from "@/components/site/section-heading";
 import { cn } from "@/lib/utils";
@@ -35,7 +35,7 @@ function MenuPage() {
     <div className="pt-32 pb-24 md:pt-40">
       <div className="container-x">
         <Reveal>
-          <SectionHeading eyebrow="The menu" title={<>Small, seasonal, thoroughly considered.</>} subtitle="We change what we can, keep what you love. Prices in USD, tax included." />
+          <SectionHeading eyebrow="The menu" title={<>Small, seasonal, thoroughly considered.</>} subtitle="We change what we can, keep what you love. Prices in INR (₹), tax included." />
         </Reveal>
 
         <div className="mt-12 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -95,7 +95,7 @@ function MenuPage() {
                       <p className="mt-2 max-w-lg text-sm text-muted-foreground">{m.description}</p>
                     </div>
                     <div className="text-right">
-                      <p className="font-serif text-xl text-[color:var(--olive)]">${m.price.toFixed(2)}</p>
+                      <p className="font-serif text-xl text-[color:var(--olive)]">{formatPrice(m.price)}</p>
                       <p className="text-[10px] uppercase tracking-[0.24em] text-muted-foreground">{m.category}</p>
                     </div>
                   </article>

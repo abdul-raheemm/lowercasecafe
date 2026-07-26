@@ -4,7 +4,7 @@ import { Check, ChevronLeft, ChevronRight, Calendar, Clock, Users, User, CheckCi
 import { Reveal } from "@/components/site/reveal";
 import { SectionHeading } from "@/components/site/section-heading";
 import { MagneticButton } from "@/components/site/magnetic-button";
-import { IMAGES } from "@/lib/site-data";
+import { IMAGES, SITE } from "@/lib/site-data";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/reservations")({
@@ -88,8 +88,8 @@ function ReservationsPage() {
               <dl className="mt-8 grid grid-cols-2 gap-6 text-sm">
                 <div><dt className="text-xs uppercase tracking-[0.24em] text-muted-foreground">Hours</dt><dd className="mt-1 font-serif text-lg text-primary">7:30 AM – 10 PM</dd></div>
                 <div><dt className="text-xs uppercase tracking-[0.24em] text-muted-foreground">Kitchen</dt><dd className="mt-1 font-serif text-lg text-primary">Until 9:15 PM</dd></div>
-                <div><dt className="text-xs uppercase tracking-[0.24em] text-muted-foreground">Address</dt><dd className="mt-1 font-serif text-lg text-primary">42 Kiln Lane</dd></div>
-                <div><dt className="text-xs uppercase tracking-[0.24em] text-muted-foreground">Phone</dt><dd className="mt-1 font-serif text-lg text-primary">(415) 555 0182</dd></div>
+                <div><dt className="text-xs uppercase tracking-[0.24em] text-muted-foreground">Address</dt><dd className="mt-1 font-serif text-lg text-primary">{SITE.address.split(",")[0]}</dd></div>
+                <div><dt className="text-xs uppercase tracking-[0.24em] text-muted-foreground">Phone</dt><dd className="mt-1 font-serif text-lg text-primary">{SITE.phone}</dd></div>
               </dl>
             </div>
           </Reveal>
