@@ -21,10 +21,36 @@ export function SiteNavbar() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    // Use IntersectionObserver to detect if the first section (hero/main content) is visible
+    // This makes the navbar color-switching work correctly on all pages with different hero heights
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // When first section is NOT visible (scrolled past it), use dark text mode (scrolled=true)
+        // When first section IS visible (at top), use light text mode (scrolled=false)
+        setScrolled(!entry.isIntersecting);
+      },
+      {
+        // Treat navbar (top ~80px) as outside the observable area
+        rootMargin: "-80px 0px 0px 0px",
+        threshold: 0.1,
+      }
+    );
+
+    // Find the first section on the page (hero or main content area)
+    const firstSection = document.querySelector("section");
+    if (firstSection) {
+      observer.observe(firstSection);
+    } else {
+      // Fallback for pages without a section: use scroll position
+      const onScroll = () => setScrolled(window.scrollY > 12);
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+      return () => window.removeEventListener("scroll", onScroll);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 
   useEffect(() => { setOpen(false); }, [pathname]);

@@ -38,11 +38,11 @@ function AboutPage() {
         <div aria-hidden className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(28,20,14,0.7),rgba(28,20,14,0.4)_40%,var(--cream))]" />
         <div className="container-x pt-40 pb-24 md:pt-56 md:pb-32">
           <Reveal>
-            <p className="mb-6 text-[11px] uppercase tracking-[0.32em] text-[color:var(--amber-glow)]">Our story</p>
-            <h1 className="max-w-4xl font-serif text-5xl leading-[1.02] text-[color:var(--cream)] sm:text-6xl md:text-7xl text-balance">
+            <p className="mb-6 text-[11px] uppercase tracking-[0.32em] text-[color:var(--charcoal)]">Our story</p>
+            <h1 className="max-w-4xl font-serif text-5xl leading-[1.02] text-[color:var(--charcoal)] sm:text-6xl md:text-7xl text-balance drop-shadow-md">
               A small room, six years, ten thousand mornings.
             </h1>
-            <p className="mt-6 max-w-2xl text-lg text-[color:var(--cream)]/80">
+            <p className="mt-6 max-w-2xl text-lg text-[color:var(--charcoal)]/80 drop-shadow">
               lowercase cafe started with a stubborn idea: that coffee is worth taking longer over. This is how a room in Banjara Hills became the place you're reading about.
             </p>
           </Reveal>
